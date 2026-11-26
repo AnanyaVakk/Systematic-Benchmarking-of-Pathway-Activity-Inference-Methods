@@ -8,33 +8,6 @@ import argparse
 import re
 import os
 
-# ============================================================
-# STEP 14A — REPRODUCIBILITY LAYER  (CORRECTED VERSION)
-# Based directly on Step 13 stability outputs + pathway matrices
-#
-# FIXES APPLIED vs the previous version:
-#   1. STABILITY_DETAILS / STABILITY_SUMMARY now point at
-#      "results/stability/", matching where Step 13 actually saved
-#      them (confirmed from Step 13's own printed output:
-#      "Saved only: results/stability/stability_summary_all_methods.csv").
-#      The old version looked in the current directory and would have
-#      raised FileNotFoundError.
-#   2. PATHWAY_FILES now uses "ZScore" (exact spelling/capitalization),
-#      matching the label Step 13 actually writes into its output
-#      (confirmed directly from your uploaded
-#      tumor_normal_pathway_activity_tests.csv, which has method
-#      labels ['GSVA','PLAGE','PROGENy','Zscore','ssGSEA'] -- note
-#      even THAT run still had a capitalization mismatch: 'Zscore'
-#      with lowercase 's', not 'ZScore'). Because Python string
-#      matching is case-sensitive, the previous key ("Z-score", then
-#      "Zscore") never matched the pivot table's real "ZScore" column,
-#      so Section 4 silently added a fake all-zero "Z-score"/"Zscore"
-#      column and DROPPED the real one when reindexing. This was
-#      confirmed directly against your uploaded results: 22 of 41
-#      pathways in reproducibility_layer_method_matrix.csv were
-#      undercounted by exactly 1 (the missing ZScore contribution)
-#      versus the independently-correct reproducibility_layer_final.csv.
-#
 #      IMPORTANT: if your own Step 13 output uses a different exact
 #      label (check the unique values printed by this script's new
 #      Section 2b diagnostic below), edit PATHWAY_FILES' key to match
@@ -587,6 +560,13 @@ print(f"\nOutput directory:\n{OUTPUT_DIR.resolve()}")
 print("\nMain files:")
 for p in sorted(OUTPUT_DIR.glob("*.csv")):
     print("  ", p.name)
+print("\nFigures:")
+for p in sorted(FIG_DIR.glob("*.png")):
+    print("  ", p.name)
+print("\nTop reproducible pathways:")
+print(final_table[["Pathway_Clean", "N_Stable_Pathway_Methods", "N_Stable_ML_Models",
+                    "N_Stable_Method_Model_Combinations", "Mean_Selection_Frequency"]]
+      .head(15).to_string(index=False))
 print("\nFigures:")
 for p in sorted(FIG_DIR.glob("*.png")):
     print("  ", p.name)
