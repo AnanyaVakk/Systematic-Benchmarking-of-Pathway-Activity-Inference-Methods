@@ -206,18 +206,6 @@ Y = np.nan_to_num(Y)
 # CLEAN COMBAT PIPELINE
 # =========================
 
-# =========================
-# ROBUST ALIGNMENT + COMBAT
-# =========================
-
-# =========================
-# CORRECT ALIGNMENT (FINAL FIX)
-# =========================
-
-# =========================
-# FINAL BULLETPROOF ALIGNMENT
-# =========================
-
 # Step 1: Clean expression column names
 log_cpm_filtered.columns = [
     str(col).replace(".tsv", "").strip()
@@ -264,9 +252,6 @@ print("Alignment successful!")
 
 # =========================
 # RUN COMBAT
-# =========================
-# =========================
-# REMOVE SINGLE-SAMPLE BATCHES (AGAIN)
 # =========================
 
 batch_counts = meta["Plate"].value_counts()
