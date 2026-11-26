@@ -195,7 +195,6 @@ saveRDS(
   plage_res,
   "TCGA_PLAGE_reference_scores.rds"
 )
-
 # ------------------------------------------------------------
 # Generate fixed-reference PLAGE loadings
 # ------------------------------------------------------------
